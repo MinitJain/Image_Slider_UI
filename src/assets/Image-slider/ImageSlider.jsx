@@ -39,7 +39,18 @@ const ImageSlider = ({ url, limit, page = 1 }) => {
     if (url !== "") fetchImages(url); // if there is some url(data), invoke the fetImages function to that url
   }, [url, page, limit]);
 
-  console.log(images);
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowLeft") {
+        HandlePrev();
+      } else if (e.key === "ArrowRight") {
+        HandleNext();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentSlide, images]);
 
   if (loading) {
     return <div>Loading data, Please Wait....</div>;
